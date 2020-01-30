@@ -36,8 +36,8 @@ class ColorsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ColorCell", for: indexPath)
         
         let color = colors[indexPath.row] // walks through index path rows
-        cell.textLabel?.text = color.name
-        cell.backgroundColor = color.color
+        cell.textLabel?.text = color.name // sets the table label with the name of the color
+        cell.backgroundColor = color.color // sets the background 
         return cell
     }
     
@@ -46,8 +46,19 @@ class ColorsTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        // 1. make sure you are using the correct segue via identifier
+        if segue.identifier == "ToDetailViewController" {
+            // 2. Get the instance of your detail view from the segue destination.
+            // 3. Get the index path for the row the user is tapping
+            if let detailVC = segue.destination as? ColorDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                // 4. Initialize color with index path
+                let color = colors[indexPath.row]
+                
+                //5. Pass the color to the detail view
+                detailVC.cellColor = color
+            }
+        }
     }
 
 
